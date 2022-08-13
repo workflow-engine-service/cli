@@ -202,7 +202,7 @@ async function newWorkflow() {
       name = await IN.input('Enter workflow name');
    }
    // =>add version to name
-   let nameWithVersion = `${name}@v${version}`
+   let nameWithVersion = `${name}_v${version}`
    let langDataPath = path.join(await OS.cwd(), 'data', 'interfaces', lang);
 
    await updateOutputEnv(outputPath, lang);
