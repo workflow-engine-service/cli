@@ -15,28 +15,48 @@ class FieldItemValidationBuiltInCheckType(Enum):
 
 
 class FieldItemValidation():
-    __builtin_check: str
-    __builtin_params: Dict
+    __type: str
+    __value: Dict
     __error: str = None
     # builtInType = FieldItemValidationBuiltInCheckType
-    __regex: str = None
-    __regexFlags: str = None
+    __regexValue: str = None
+    __apiValue: str = None
 
-    def __init__(self, builtin_check: Literal['email'], builtin_params: Dict = {}, error=None, regex: str = None, regexFlags: str = None):
-        self.__builtin_check = builtin_check
-        self.__builtin_params = builtin_params
+    def __init__(self, type: Literal['max_length', 'min_length', 'accept_pattern', 'reject_pattern', 'email', 'min', 'max', 'api', 'file_type', 'file_size']):
+        self.__type = type
+
+    def value(self, value):
+        self.__value = value
+        return self
+
+    def error(self, error):
         self.__error = error
-        self.__regex = regex
-        self.__regexFlags = regexFlags
+        return self
+
+    def apiValue(self, value):
+        self.__apiValue = value
+        return self
+
+    def regexValue(self, regex: str, flags):
+        self.__regexValue = {
+            regex,
+            flags,
+        }
+        return self
 
     def __str__(self) -> str:
         schema = {
-            'builtin_check': self.__builtin_check,
-            'builtin_params': self.__builtin_params,
-            'error': self.__error,
-            'regex': self.__regex,
-            'regex_flags': self.__regexFlags,
+            'type': self.__type,
         }
+        if self.__apiValue is not None:
+            schema['api_value'] = self.__apiValue
+        if self.__regexValue is not None:
+            schema['regex_value'] = self.__regexValue
+        if self.__value is not None:
+            schema['value'] = self.__value
+        if self.__error is not None:
+            schema['error'] = self.__error
+
         return json.dumps(schema)
 
 
@@ -54,6 +74,7 @@ class FieldItem():
         self.__default = default
         if self.__default is None:
             self.autoDefaultValue()
+        self.__validations = []
         return None
 
     def autoDefaultValue(self):
@@ -98,7 +119,7 @@ class StringField(FieldItem):
 
 
 class NumberField(FieldItem):
-    _description = 'Number field contrains just numbers'
+    _description = 'Number field contains just numbers'
     _type = 'number'
 
     def autoDefaultValue(self):
@@ -108,13 +129,11 @@ class NumberField(FieldItem):
 class FileField(FieldItem):
     _description = 'File Field contains a file object'
     _type = 'file'
-    __max_file_size: int
-    __allowed_mime_types: List[str]
+    # __max_file_size: int
+    # __allowed_mime_types: List[str]
 
-    def __init__(self, *args, max_file_size: int, allowed_mime_types: List[str]):
+    def __init__(self, *args):
         super().__init__(*args)
-        self.__max_file_size = max_file_size
-        self.__allowed_mime_types = allowed_mime_types
 
 
 class BooleanField(FieldItem):
