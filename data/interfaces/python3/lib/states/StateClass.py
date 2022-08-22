@@ -4,6 +4,7 @@ from typing import Dict, List
 
 from ActionClass import WorkflowStateAction
 from EventClass import WorkflowStateEvent
+from cli.data.interfaces.python3.lib.states.JobClass import WorkflowStateJob
 
 
 class WorkflowState():
@@ -12,6 +13,7 @@ class WorkflowState():
     access_roles: List[str] = ['_all_']
     actions: List[WorkflowStateAction] = []
     events: List[WorkflowStateEvent] = []
+    jobs: List[WorkflowStateJob] = []
 
     # def loadFromDict(self, obj: Dict):
     # self.name = obj['name']
@@ -39,6 +41,7 @@ class WorkflowState():
             'access_roles': self.access_roles,
             'actions': [],
             'events': [],
+            'jobs': []
         }
         if self.actions:
             for action in self.actions:
@@ -46,4 +49,8 @@ class WorkflowState():
         if self.events:
             for event in self.events:
                 schema['events'].append(json.loads(str(event)))
+
+        if self.jobs:
+            for job in self.jobs:
+                schema['jobs'].append(json.loads(str(job)))
         return json.dumps(schema)
