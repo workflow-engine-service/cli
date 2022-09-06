@@ -1,6 +1,8 @@
 
 import json
-from typing import Dict, Literal, Optional
+from typing import Dict, Literal
+
+from cli.data.interfaces.python3.lib.states.CalculatorClass import WorkflowCalculator
 
 
 class WorkflowStateJob():
@@ -11,7 +13,7 @@ class WorkflowStateJob():
     __action_name: str
     __state_name: str
 
-    def __init__(self, id: Optional[str], repeat: Optional[int], action_name: Optional[str], state_name: Optional[str]):
+    def __init__(self, id: str = None, repeat: int = None, action_name: str = None, state_name: str = None):
         self.__id = id
         self.__repeat = repeat
         self.__action_name = action_name
@@ -19,12 +21,10 @@ class WorkflowStateJob():
 
         return None
 
-    def time(self, timestamp: Optional[int], timestamp_field: Optional[str], hour: Optional[int], minute: Optional[int], second: Optional[int], day: Optional[int]):
+    def time(self, timestamp: int or WorkflowCalculator = None, hour: int or WorkflowCalculator = None, minute: int or WorkflowCalculator = None, second: int or WorkflowCalculator = None, day: int or WorkflowCalculator = None):
         self.__time = {}
         if timestamp is not None:
             self.__time['timestamp'] = timestamp
-        if timestamp_field is not None:
-            self.__time['timestamp_field'] = timestamp_field
         if day is not None:
             self.__time['day'] = day
         if hour is not None:

@@ -16,9 +16,15 @@ class WorkflowAdminApi(BaseApi):
             return True, 'success'
         return False, response.body['data']
 
-    def createWorkflowProcess(self, name: str, version: int) -> Tuple[bool, str]:
+    def createWorkflowProcess(self, name: str, version: int = None, owner_id: int = None) -> Tuple[bool, str]:
+        data = {'name': name}
+        if version is not None:
+            data['version'] = version
+        if owner_id is not None:
+            data['owner_id'] = owner_id
+
         response = self._callPOSTApi(
-            '/workflow/create', {'name': name, 'version': version})
+            '/workflow/create', data)
         # print('response deploy:', response)
         if response.code == 200:
             return True, response.body['data']
