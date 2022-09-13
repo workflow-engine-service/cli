@@ -22,4 +22,4 @@ RUN npm run build
 
 EXPOSE {{configs.server.port}}
 
-CMD ["node", "build/src/index.js", "prod"]
+CMD ["node", "build/index.js", "prod"]
