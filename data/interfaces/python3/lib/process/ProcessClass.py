@@ -1,17 +1,15 @@
-
-
 from datetime import datetime
 import json
 from typing import Dict, List, Tuple, Union
-from lib.process.WorkerClass import WorkerClass
-from lib.states.ActionClass import WorkflowStateAction
-from lib.workflow.WorkflowClass import WorkflowDefinition
-from lib.apis.admin_api import WorkflowAdminApi
-from lib.apis.user_api import WorkflowUserApi
+from ...lib.process.WorkerClass import WorkerClass
+from ...lib.states.ActionClass import WorkflowStateAction
+from ...lib.workflow.WorkflowClass import WorkflowDefinition
+from ...lib.apis.admin_api import WorkflowAdminApi
+from ...lib.apis.user_api import WorkflowUserApi
 
-from lib.states.StateClass import WorkflowState
+from ...lib.states.StateClass import WorkflowState
 
-# from lib.workflow.workflow import Workflow
+# from ...lib.workflow.workflow import Workflow
 
 
 class WorkflowProcess():
@@ -29,7 +27,7 @@ class WorkflowProcess():
     _user_api: WorkflowUserApi
     _workflow: WorkflowDefinition
 
-    def __init__(self, obj: Dict, workflow: WorkflowDefinition,  admin_api: WorkflowAdminApi, user_api: WorkflowUserApi) -> None:
+    def _init_(self, obj: Dict, workflow: WorkflowDefinition,  admin_api: WorkflowAdminApi, user_api: WorkflowUserApi) -> None:
 
         self._update_by_obj(obj)
         self._admin_api = admin_api
@@ -50,12 +48,13 @@ class WorkflowProcess():
                 int(obj['updated_at']) / 1000)
         self.created_by = obj['created_by']
 
-    def __str__(self) -> str:
+    def _str_(self) -> str:
         return json.dumps({
             'workflow_name': self.workflow_name,
             'workflow_version': self.workflow_version,
             'current_state': self.current_state,
             'field_values': self.field_values,
+            'process_id': self._id,
             # TODO:
             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S')
         })

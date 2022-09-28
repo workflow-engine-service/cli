@@ -176,10 +176,15 @@ async function installWorkflow() {
 /*********************************** */
 
 async function stopDocker() {
-   let dokcerPath = path.join(await OS.cwd(), 'data', 'docker');
+   try{
+      let dokcerPath = path.join(await OS.cwd(), 'data', 'docker');
 
-   let dokcerTmpPath = path.join(dokcerPath, 'tmp');
-   await OS.shell(`sudo docker-compose -f ./docker-compose.yml --project-name ${DOCKER_PROJECT_NAME} stop `, dokcerTmpPath);
+      let dokcerTmpPath = path.join(dokcerPath, 'tmp');
+      if (fs.existsSync(dokcerTmpPath) {
+        await OS.shell(`sudo docker-compose -f ./docker-compose.yml --project-name ${DOCKER_PROJECT_NAME} stop `, dokcerTmpPath);
+      }
+   } catch(e){console.log(e)}
+
 }
 /*********************************** */
 async function newWorkflow() {
