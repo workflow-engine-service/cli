@@ -38,7 +38,7 @@ class WorkflowState():
         schema = {
             'name': self.name,
             'meta': self.meta,
-            'access_roles': self.access_roles,
+            'access_role': self.access_roles,
             'actions': [],
             'events': [],
             'jobs': []

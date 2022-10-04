@@ -9,7 +9,7 @@ import * as fs from 'fs';
 /************************************* */
 type CommandName = 'compile' | 'new' | 'sample' | 'install' | 'stop' | 'publish-docs';
 type CommandArgvName = 'language' | 'input' | 'output' | 'name' | 'version' | 'overwrite' | 'skip-remove-docker-cache' | 'skip-build-image';
-const VERSION = '0.27';
+const VERSION = '0.28';
 const DOCKER_PROJECT_NAME = 'workflow_engine_saas';
 /*********************************** */
 
@@ -176,14 +176,14 @@ async function installWorkflow() {
 /*********************************** */
 
 async function stopDocker() {
-   try{
+   try {
       let dokcerPath = path.join(await OS.cwd(), 'data', 'docker');
 
       let dokcerTmpPath = path.join(dokcerPath, 'tmp');
       if (fs.existsSync(dokcerTmpPath) {
-        await OS.shell(`sudo docker-compose -f ./docker-compose.yml --project-name ${DOCKER_PROJECT_NAME} stop `, dokcerTmpPath);
+         await OS.shell(`sudo docker-compose -f ./docker-compose.yml --project-name ${DOCKER_PROJECT_NAME} stop `, dokcerTmpPath);
       }
-   } catch(e){console.log(e)}
+   } catch (e) { console.log(e) }
 
 }
 /*********************************** */

@@ -85,7 +85,7 @@ class WorkflowStateAction():
 
     def __str__(self) -> str:
         schema = {
-            'access_roles': self.__access_roles,
+            'access_role': self.__access_roles,
             'set_fields': self.__set_fields,
             'required_fields': self.__required_fields,
             'optional_fields': self.__optional_fields,
