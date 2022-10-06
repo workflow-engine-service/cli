@@ -27,7 +27,7 @@ class WorkflowProcess():
     _user_api: WorkflowUserApi
     _workflow: WorkflowDefinition
 
-    def _init_(self, obj: Dict, workflow: WorkflowDefinition,  admin_api: WorkflowAdminApi, user_api: WorkflowUserApi) -> None:
+    def __init__(self, obj: Dict, workflow: WorkflowDefinition,  admin_api: WorkflowAdminApi, user_api: WorkflowUserApi) -> None:
 
         self._update_by_obj(obj)
         self._admin_api = admin_api
@@ -35,20 +35,20 @@ class WorkflowProcess():
         self._workflow = workflow
 
     def _update_by_obj(self, obj: Dict):
-        self.workflow_name = obj['workflow_name']
-        self.workflow_version = obj['workflow_version']
-        self.current_state = obj['current_state']
-        self.field_values = obj['field_values']
-        self.history = obj['history']
-        self.workflow = obj['workflow']
-        self._id = obj['_id']
+        self.workflow_name = obj.get('workflow_name')
+        self.workflow_version = obj.get('workflow_version')
+        self.current_state = obj.get('current_state')
+        self.field_values = obj.get('field_values')
+        self.history = obj.get('history')
+        self.workflow = obj.get('workflow')
+        self._id = obj.get('_id')
         self.created_at = datetime.fromtimestamp(int(obj['created_at']) / 1000)
         if obj.get('updated_at') is not None:
             self.updated_at = datetime.fromtimestamp(
                 int(obj['updated_at']) / 1000)
         self.created_by = obj['created_by']
 
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         return json.dumps({
             'workflow_name': self.workflow_name,
             'workflow_version': self.workflow_version,

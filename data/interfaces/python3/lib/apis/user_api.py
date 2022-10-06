@@ -1,7 +1,6 @@
-
 from typing import Dict, Tuple
-from base_api import BaseApi
-from lib.workflow.request import callPOSTApi
+from .base_api import BaseApi
+from ...lib.workflow.request import callPOSTApi
 
 
 class WorkflowUserApi(BaseApi):
@@ -26,7 +25,22 @@ class WorkflowUserApi(BaseApi):
             return response.body['data']
         return None
 
-    def processAction(self, processId: str, state_action: str, message: str = None, fields: Dict = {}) -> Tuple[Dict, str]:
+    def filter(self, workflows_name: list[str] = [], processes_id: list[str] = [],
+               filter_finished_processes: bool = False, state: str = None, with_fields: bool = False,
+               page_size: int = 500, page: int = 1) -> [Dict, Dict]:
+        response = self._callPOSTApi('/workflow/filter', {'workflows': workflows_name,
+                                                          'processes': processes_id,
+                                                          'filter_finished_processes': filter_finished_processes,
+                                                          'state': state,
+                                                          'with_fields': with_fields,
+                                                          "page_size": page_size,
+                                                          "page": page})
+        if response.code == 200:
+            return response.body['data'], response.body['pagination']
+        return None
+
+    def processAction(self, processId: str, state_action: str, message: str = None, fields: Dict = {}) -> Tuple[
+            Dict, str]:
         """call short action with no send files
 
         Args:
