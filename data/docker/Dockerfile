@@ -21,5 +21,8 @@ RUN cp ./cli/data/docker/tmp/configs.json configs.json
 RUN npm run build
 
 EXPOSE {{configs.server.port}}
+{% if configs.server.ssl %}
+EXPOSE {{configs.server.ssl.port}}
+{% endif %}
 
 CMD ["node", "build/index.js", "prod"]

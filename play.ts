@@ -9,7 +9,7 @@ import * as fs from 'fs';
 /************************************* */
 type CommandName = 'compile' | 'new' | 'sample' | 'install' | 'stop' | 'publish-docs';
 type CommandArgvName = 'language' | 'input' | 'output' | 'name' | 'version' | 'overwrite' | 'skip-remove-docker-cache' | 'skip-build-image';
-const VERSION = '0.28';
+const VERSION = '0.29';
 const DOCKER_PROJECT_NAME = 'workflow_engine_saas';
 /*********************************** */
 
@@ -135,8 +135,7 @@ async function installWorkflow() {
       LOG.info('clear unused docker images...');
       await OS.shell(`sudo docker rmi $(sudo docker images --filter "dangling=true" -q --no-trunc)`);
    }
-   LOG.info('stop docker services...');
-   await stopDocker();
+
    fs.mkdirSync(dockerTmpPath, { recursive: true });
    // =>copy configs.prod.json to tmp
    if (fs.existsSync(path.join(sourceRootPath, 'configs.prod.json'))) {
@@ -169,6 +168,8 @@ async function installWorkflow() {
       LOG.info('rebuild docker image ...');
       await OS.shell(`sudo docker build -t workflow_engine:latest -f ./cli/data/docker/tmp/Dockerfile .`, sourceRootPath);
    }
+   LOG.info('stop docker services...');
+   await stopDocker();
    LOG.info('run docker compose...');
    await OS.shell(`sudo docker-compose -f ./docker-compose.yml --project-name ${DOCKER_PROJECT_NAME} up -d --remove-orphans `, dockerTmpPath);
 

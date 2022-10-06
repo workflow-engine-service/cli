@@ -30,6 +30,9 @@ services:
     restart: always
     ports:
       - "{{configs.server.port}}:{{configs.server.port}}"
+      {% if configs.server.ssl %}
+      - "{{configs.server.ssl.port}}:{{configs.server.ssl.port}}"
+      {% endif %}
     volumes:
       - ./data/app/logs:/app/{{configs.server.logs_path}}
       - ./data/app/uploads:/app/{{configs.server.uploads_path}}
