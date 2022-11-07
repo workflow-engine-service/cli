@@ -108,5 +108,7 @@ class WorkflowStateAction():
             schema['response_channel'] = self.__response_channel
             if self.__redis_instance is not None:
                 schema['redis_instance'] = self.__redis_instance
+        if self.__meta is not None:
+            schema['meta'] = self.__meta
 
         return json.dumps(schema)

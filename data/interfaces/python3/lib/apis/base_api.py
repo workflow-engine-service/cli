@@ -1,8 +1,7 @@
-
-
 import json
 from typing import Dict
-from lib.workflow.request import callGETApi, callPOSTApi
+
+from ...lib.workflow.request import callGETApi, callPOSTApi, callDELETEApi
 
 
 class BaseApi():
@@ -16,7 +15,8 @@ class BaseApi():
     _expired_time_token: str
     _auth_header_name: str
 
-    def __init__(self, baseUrl: str, admin_username: str, admin_secretkey: str, debug_mode=False, auth_header_name='Authorization') -> None:
+    def __init__(self, baseUrl: str, admin_username: str, admin_secretkey: str, debug_mode=False,
+                 auth_header_name='Authorization') -> None:
         self._admin_username = admin_username
         self._admin_secret_key = admin_secretkey
         self._debug_mode = debug_mode
@@ -40,7 +40,7 @@ class BaseApi():
 
         return response
 
-    def _callGETApi(self, path: str, params: Dict, headers: Dict = {}):
+    def _callGETApi(self, path: str, params: Dict = {}, headers: Dict = {}):
         if self._token is None:
             self.userToken()
         # =>set auth token
@@ -51,6 +51,15 @@ class BaseApi():
         if type(response.body) is str:
             response.body = json.loads(response.body)
 
+        return response
+
+    def _callDELETEApi(self, path: str, params: Dict = {}, headers: Dict = {}):
+        if self._token is None:
+            self.userToken()
+        # =>set auth token
+        headers[self._auth_header_name] = self._token
+        response = callDELETEApi(self.absApiUrl(
+            path), params, debug_mode=self._debug_mode, headers=headers)
         return response
 
     def absApiUrl(self, path: str):

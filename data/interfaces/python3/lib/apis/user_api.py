@@ -1,6 +1,6 @@
 from typing import Dict, Tuple
+
 from .base_api import BaseApi
-from ...lib.workflow.request import callPOSTApi
 
 
 class WorkflowUserApi(BaseApi):
@@ -10,6 +10,13 @@ class WorkflowUserApi(BaseApi):
         if response.code == 200:
             return response.body['data']
         return None
+
+    def deleteProcess(self, id: str) -> Dict:
+        response = self._callDELETEApi(
+            '/workflow/delete', {'id': id})
+        if response.code == 200:
+            return True
+        return False
 
     def processInfo(self, processId: str) -> Dict:
         response = self._callGETApi(
@@ -26,13 +33,14 @@ class WorkflowUserApi(BaseApi):
         return None
 
     def filter(self, workflows_name: list[str] = [], processes_id: list[str] = [],
-               filter_finished_processes: bool = False, state: str = None, with_fields: bool = False,
-               page_size: int = 500, page: int = 1) -> [Dict, Dict]:
+               filter_finished_processes: str = "false", state: str = None, with_fields: str = "false",
+               owner_id: int = 0, page_size: int = 500, page: int = 1) -> [Dict, Dict]:
         response = self._callPOSTApi('/workflow/filter', {'workflows': workflows_name,
                                                           'processes': processes_id,
                                                           'filter_finished_processes': filter_finished_processes,
                                                           'state': state,
                                                           'with_fields': with_fields,
+                                                          'owner_id': owner_id,
                                                           "page_size": page_size,
                                                           "page": page})
         if response.code == 200:

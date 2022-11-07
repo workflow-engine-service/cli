@@ -1,11 +1,11 @@
 import json
-from typing import Dict, Literal
 import urllib.parse
 import urllib.request
+from typing import Dict, Literal
+
 import requests
 
-from lib.utils.Dict2Class import Dict2Class
-from lib.utils.multipart_sender import MultiPartForm
+from ...lib.utils.Dict2Class import Dict2Class
 
 user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
 responses = {
@@ -48,7 +48,7 @@ responses = {
           'Specified method is invalid for this server.'),
     406: ('Not Acceptable', 'URI not available in preferred format.'),
     407: ('Proxy Authentication Required', 'You must authenticate with '
-          'this proxy before proceeding.'),
+                                           'this proxy before proceeding.'),
     408: ('Request Timeout', 'Request timed out; try again later.'),
     409: ('Conflict', 'Request conflict.'),
     410: ('Gone',
@@ -87,7 +87,14 @@ def callGETApi(url: str, values: Dict = {}, headers: Dict = {}, debug_mode=False
     return response
 
 
-def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 'DELETE'] = 'POST', headers: Dict = {}, debug_mode=False):
+def callDELETEApi(url: str, values: Dict = {}, headers: Dict = {}, debug_mode=False):
+    response = _callApi(url, values, method='DELETE',
+                        headers=headers, debug_mode=debug_mode)
+    return response
+
+
+def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 'DELETE'] = 'POST', headers: Dict = {},
+             debug_mode=False):
     headers['User-Agent'] = user_agent
     if headers.get('accept') is None:
         headers['accept'] = 'application/json'
@@ -116,9 +123,9 @@ def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 
         #     # req1 = urllib.request.Request(url)
         #     headers['Content-type'] = form.get_content_type()
         #     headers['Content-length'] = len(form.form_data)
-            # req1.add_data(form.form_data)
+        # req1.add_data(form.form_data)
 
-            # data = form.form_data
+        # data = form.form_data
         # data = data.encode('utf-8')  # data should be bytes
     if debug_mode:
         print('request: [{}] {}'.format(method, url))
@@ -130,6 +137,8 @@ def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 
             response = requests.post(url, data, headers=headers)
         elif method == 'GET':
             response = requests.get(url, headers=headers)
+        elif method == 'DELETE':
+            response = requests.delete(url, headers=headers)
         # TODO:
         # req = urllib.request.Request(
         #     url, data, headers=headers, method=method)
