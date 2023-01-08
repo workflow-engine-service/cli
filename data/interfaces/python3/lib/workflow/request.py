@@ -134,11 +134,11 @@ def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 
     try:
         response: requests.Response
         if method == 'POST':
-            response = requests.post(url, data, headers=headers)
+            response = requests.post(url, data, headers=headers, verify=False)
         elif method == 'GET':
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, verify=False)
         elif method == 'DELETE':
-            response = requests.delete(url, headers=headers)
+            response = requests.delete(url, headers=headers, verify=False)
         # TODO:
         # req = urllib.request.Request(
         #     url, data, headers=headers, method=method)
@@ -157,7 +157,7 @@ def _callApi(url: str, values: Dict = {}, method: Literal['POST', 'GET', 'PUT', 
         # print(e)
         return Dict2Class({
             'code': 404,  # e.code,
-            'body': '',  # e.read().decode(),
+            'body': {'data': str(e)},  # e.read().decode(),
             'raw': json.dumps(str(e)),
             'error': True
         })

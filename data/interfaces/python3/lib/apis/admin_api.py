@@ -35,7 +35,6 @@ class WorkflowAdminApi(BaseApi):
             'process_id': process_id,
             'fields': fields
         })
-        print(response.body)
         if response.code == 200:
             return True, 'success'
         return False, response.body['data']

@@ -2,7 +2,7 @@
 import json
 from typing import Dict, Literal
 
-from cli.data.interfaces.python3.lib.states.CalculatorClass import WorkflowCalculator
+from workflow.flows.lib.states.CalculatorClass import WorkflowCalculator
 
 
 class WorkflowStateJob():
@@ -18,8 +18,7 @@ class WorkflowStateJob():
         self.__repeat = repeat
         self.__action_name = action_name
         self.__state_name = state_name
-
-        return None
+        self.__set_fields = {}
 
     def time(self, timestamp: int or WorkflowCalculator = None, hour: int or WorkflowCalculator = None, minute: int or WorkflowCalculator = None, second: int or WorkflowCalculator = None, day: int or WorkflowCalculator = None):
         self.__time = {}

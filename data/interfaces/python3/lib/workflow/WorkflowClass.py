@@ -2,8 +2,8 @@
 
 from typing import Dict, List
 from WorkflowProcessInitCheck import WorkflowProcessInitCheck
-from lib.states.StateClass import WorkflowState
-from lib.fields import FieldClass
+from ...lib.states.StateClass import WorkflowState
+from ...lib.fields import FieldClass
 
 
 class WorkflowDefinition():

@@ -1,1 +1,1 @@
-import setup
+from . import setup

@@ -2,9 +2,9 @@
 import json
 from typing import Dict, List
 
-from ActionClass import WorkflowStateAction
-from EventClass import WorkflowStateEvent
-from cli.data.interfaces.python3.lib.states.JobClass import WorkflowStateJob
+from .ActionClass import WorkflowStateAction
+from .EventClass import WorkflowStateEvent
+from .JobClass import WorkflowStateJob
 
 
 class WorkflowState():

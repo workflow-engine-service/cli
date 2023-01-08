@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 from typing import Dict, Literal
 
-from lib.apis.user_api import WorkflowUserApi
+from ...lib.apis.user_api import WorkflowUserApi
 
 
 class WorkerClass():

@@ -9,9 +9,9 @@ class WorkflowUserApi(BaseApi):
             '/workflow/state-info', {'process_id': processId})
         if response.code == 200:
             return response.body['data']
-        return None
+        return {}
 
-    def deleteProcess(self, id: str) -> Dict:
+    def deleteProcess(self, id: str) -> bool:
         response = self._callDELETEApi(
             '/workflow/delete', {'id': id})
         if response.code == 200:
@@ -23,14 +23,21 @@ class WorkflowUserApi(BaseApi):
             '/workflow/process-info', {'process_id': processId})
         if response.code == 200:
             return response.body['data']
-        return None
+        return {}
 
     def workerInfo(self, workerId: str) -> Dict:
         response = self._callGETApi(
             '/worker/info', {'id': workerId})
         if response.code == 200:
             return response.body['data']
-        return None
+        return {}
+
+    def get_fields(self, workflow_name: str) -> Dict:
+        response = self._callGETApi(
+            '/workflow/fields', {'workflow_name': workflow_name})
+        if response.code == 200:
+            return response.body['data']
+        return {}
 
     def filter(self, workflows_name: list[str] = [], processes_id: list[str] = [],
                filter_finished_processes: str = "false", state: str = None, with_fields: str = "false",
@@ -45,10 +52,10 @@ class WorkflowUserApi(BaseApi):
                                                           "page": page})
         if response.code == 200:
             return response.body['data'], response.body['pagination']
-        return None
+        return [{}, {}]
 
     def processAction(self, processId: str, state_action: str, message: str = None, fields: Dict = {}) -> Tuple[
-            Dict, str]:
+        Dict, str]:
         """call short action with no send files
 
         Args:

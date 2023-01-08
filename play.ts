@@ -9,7 +9,7 @@ import * as fs from 'fs';
 /************************************* */
 type CommandName = 'compile' | 'new' | 'sample' | 'install' | 'stop' | 'publish-docs';
 type CommandArgvName = 'language' | 'input' | 'output' | 'name' | 'version' | 'overwrite' | 'skip-remove-docker-cache' | 'skip-build-image';
-const VERSION = '0.29';
+const VERSION = '0.30';
 const DOCKER_PROJECT_NAME = 'workflow_engine_saas';
 /*********************************** */
 
